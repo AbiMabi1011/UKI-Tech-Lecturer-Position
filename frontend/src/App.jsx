@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
+  // Environment variable for API URL (defaults to localhost for development)
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
   // storing the students list [ ]
   const [students, setStudents] = useState([]);
 
@@ -24,7 +27,7 @@ function App() {
   // Function to fetch data from backend
   const fetchStudents = async () => {
     try {
-      const response = await fetch('http://localhost:5000/students');
+      const response = await fetch(`${API_URL}/students`);
       const data = await response.json();
       setStudents(data); // Update students
     } catch (error) {
@@ -50,7 +53,7 @@ function App() {
     e.preventDefault(); // Prevent page reload
 
     try {
-      const response = await fetch('http://localhost:5000/students', {
+      const response = await fetch(`${API_URL}/students`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -78,7 +81,7 @@ function App() {
     if (!window.confirm("Are you sure you want to delete this student?")) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/students/${id}`, {
+      const response = await fetch(`${API_URL}/students/${id}`, {
         method: 'DELETE',
       });
 
@@ -92,6 +95,7 @@ function App() {
       console.error('Error deleting student:', error);
     }
   };
+
 
   return (
     <div className="container">
